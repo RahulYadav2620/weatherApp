@@ -10,7 +10,6 @@ apiKey = 'cde0cc3f38c6dbb784bd81fb7a58d2b5';
 let api;
 
 inputField.addEventListener("keyup", e =>{
-    // if user pressed enter btn and input value is not empty
     if(e.key == "Enter" && inputField.value != ""){
         requestApi(inputField.value);
     }
@@ -36,16 +35,13 @@ function onSuccess(position){
 }
 
 function onError(error){
-    // if any error occur while getting user location then we'll show it in infoText
     infoTxt.innerText = error.message;
     infoTxt.classList.add("error");
 }
 
 function fetchData(){
-    infoTxt.innerText = "Getting weather details...";
+    infoTxt.innerText = "Getting weather details.";
     infoTxt.classList.add("pending");
-    // getting api response and returning it with parsing into js obj and in another 
-    // then function calling weatherDetails function with passing api result as an argument
     fetch(api).then(res => res.json()).then(result => weatherDetails(result)).catch(() =>{
         infoTxt.innerText = "Something went wrong";
         infoTxt.classList.replace("pending", "error");
@@ -53,17 +49,15 @@ function fetchData(){
 }
 
 function weatherDetails(info){
-    if(info.cod == "404"){ // if user entered city name isn't valid
+    if(info.cod == "404"){ 
         infoTxt.classList.replace("pending", "error");
         infoTxt.innerText = `${inputField.value} isn't a valid city name`;
     }else{
-        //getting required properties value from the whole weather information
         const city = info.name;
         const country = info.sys.country;
         const {description, id} = info.weather[0];
         const {temp, feels_like, humidity} = info.main;
 
-        // using custom weather icon according to the id which api gives to us
         if(id == 800){
             wIcon.src = "icons/clear.svg";
         }else if(id >= 200 && id <= 232){
@@ -78,7 +72,6 @@ function weatherDetails(info){
             wIcon.src = "icons/rain.svg";
         }
         
-        //passing a particular weather info to a particular element
         weatherPart.querySelector(".temp .numb").innerText = Math.floor(temp);
         weatherPart.querySelector(".weather").innerText = description;
         weatherPart.querySelector(".location span").innerText = `${city}, ${country}`;
