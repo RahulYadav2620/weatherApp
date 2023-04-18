@@ -40,7 +40,6 @@ function onError(error){
 }
 
 function fetchData(){
-    console.log("fetchdata test");
     infoTxt.innerText = "Getting weather details.";
     infoTxt.classList.add("pending");
     fetch(api).then(res => res.json()).then(result => weatherDetails(result)).catch(() =>{
